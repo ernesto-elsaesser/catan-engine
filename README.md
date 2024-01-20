@@ -15,13 +15,15 @@ from bots import run_bots
 
 # initialize new game
 
-players = [
-    Human("Amy"),
-    Bot("Bill", strategy="default"),
-    Bot("Cindy", strategy="default")
-]
-
+players = [Human("Amy"), Bot("Bill"), Bot("Cindy")]
 game = Game(players)
+
+# print game state
+
+current_state = game.states[-1]
+print(current_state)
+print(current_state.players[0].resources)
+print(current_state.players[0].choice)
 
 # make a move
 

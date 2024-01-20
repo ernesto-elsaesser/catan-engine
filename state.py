@@ -166,8 +166,10 @@ class GameState:
 
     def __repr__(self) -> str:
 
-        actor = "-" if self.actor is None else self.actor
-        return f"{actor}: {self.action}.{self.option}({self.argument})"
+        summary = f"{self.action}.{self.option}({self.argument})"
+        if self.actor is None:
+            return summary
+        return f"Player #{self.actor}: {summary}"
 
     def compute_points(self, player_index: int) -> int:
 
