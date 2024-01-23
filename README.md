@@ -1,6 +1,6 @@
 # Catan Engine
 
-This repository contains a set of Python modules that encode the "Settlers of Catan" game logic (according to the official rules from Kosmos).
+This repository contains a set of Python modules that encode the complete "Settlers of Catan" game logic (following the official rules from Kosmos). The code is used in the browser-based [catan.one](https://catan.one/) game (free to play!).
 
 The [bots.py](bots.py) module contains a base class for bot strategy and a very basic implementation. It is designed to be easliy extensible to implement custom bot stragtegies.
 
