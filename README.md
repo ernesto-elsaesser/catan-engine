@@ -7,7 +7,7 @@ The [bots.py](bots.py) module contains a class interface to implement custom bot
 Usage example:
 
 ```python
-from state import Game, Player, Human, Bot
+from state import Game, Human, Bot
 from actions import Action
 from bots import run_bots
 
