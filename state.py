@@ -29,7 +29,7 @@ class Human(Player):
 
 class Bot(Player):
 
-    def __init__(self, name: str, strategy: str = 'basic'):
+    def __init__(self, name: str, strategy: str):
 
         super().__init__(name)
 
@@ -166,10 +166,8 @@ class GameState:
 
     def __repr__(self) -> str:
 
-        summary = f"{self.action}.{self.option}({self.argument})"
-        if self.actor is None:
-            return summary
-        return f"Player #{self.actor}: {summary}"
+        actor = "-" if self.actor is None else self.actor
+        return f"{actor}: {self.action}.{self.option}({self.argument})"
 
     def compute_points(self, player_index: int) -> int:
 

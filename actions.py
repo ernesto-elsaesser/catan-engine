@@ -26,11 +26,10 @@ class Action:
 
     def choose(self, option: str, argument: int | str | None = None):
 
-        last_state = self.game.states[-1]
-        player = last_state.players[self.index]
+        player = self.get_player()
         choice = player.choice
-
         assert choice is not None, f"no choice for {self.index}"
+
         assert option in choice.options, option
 
         args = choice.option_args.get(option)
@@ -41,7 +40,7 @@ class Action:
 
         self.action_params = choice.action_params
 
-        self.state = copy.deepcopy(last_state)
+        self.state = copy.deepcopy(self.game.states[-1])
         self.state.actor = self.index
         self.state.action = choice.action
         self.state.option = option
@@ -333,10 +332,7 @@ class Action:
 
         return choice
 
-    def continue_turn(self, player_index: int | None = None):
-
-        if player_index is not None:
-            self.index = player_index
+    def continue_turn(self):
 
         choice = self.build_turn_choice()
         self.set_choice(choice)
@@ -482,7 +478,7 @@ class Action:
 
         choice = Choice('quote', *self.action_params, res_key)
         resources = self.get_player().resources
-        amounts = [n + 1 for n in range(resources[res_key])]
+        amounts = list(range(resources[res_key] + 1))
         choice.add_option('amount', amounts)
         choice.add_option('cancel')
         self.set_choice(choice)
@@ -503,8 +499,7 @@ class Action:
 
     def trade_decline(self):
 
-        player_index, _, _, _ = self.action_params
-        self.continue_turn(player_index)
+        self.continue_turn()
 
     def trade_accept(self):
 
@@ -513,19 +508,20 @@ class Action:
             {request_key: -1, offer_key: amount})
         self.state.deltas[player_index] = Resources(
             {request_key: 1, offer_key: -amount})
-        self.continue_turn(player_index)
+
+        self.continue_turn()
 
     def donate_decline(self):
 
-        player_index, _ = self.action_params
-        self.continue_turn(player_index)
+        self.continue_turn()
 
     def donate_grant(self):
 
         player_index, request_key = self.action_params
         self.state.deltas[self.index] = Resources({request_key: -1})
         self.state.deltas[player_index] = Resources({request_key: 1})
-        self.continue_turn(player_index)
+
+        self.continue_turn()
 
     def monopoly_res(self, res_key: str):
 

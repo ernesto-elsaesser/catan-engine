@@ -9,10 +9,9 @@ from .board import *
 
 def run_bots(game: Game):
 
-    implementations = {'basic': BasicStrategy}
-
+    strat_classes = {'default': DefaultStrategy}
     changed = True
-    
+
     while changed:
 
         changed = False
@@ -22,7 +21,7 @@ def run_bots(game: Game):
             if not isinstance(player, Bot):
                 continue
 
-            strategy_class = implementations[player.strategy]
+            strategy_class = strat_classes[player.strategy]
 
             while True:
                 strategy = strategy_class(game, index)
@@ -82,7 +81,7 @@ class Strategy:
         return True
 
 
-class BasicStrategy(Strategy):
+class DefaultStrategy(Strategy):
 
     def __init__(self, game: Game, player_index: int):
 
@@ -281,7 +280,3 @@ class BasicStrategy(Strategy):
             self.choose('decline')
         else:
             self.choose('accept')
-
-    def donate(self, player_index: int, request_key: str):
-
-        self.choose('decline')
